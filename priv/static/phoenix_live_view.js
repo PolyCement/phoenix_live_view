@@ -4308,6 +4308,10 @@ within:
       if (!this.isConnected()) {
         return browser_default.redirect(href);
       }
+      if (/^\/$|^\/[^\/]+.*$/.test(href)) {
+        let { protocol, host } = window.location;
+        href = `${protocol}//${host}${href}`;
+      }
       this.withPageLoading({ to: href, kind: "patch" }, (done) => {
         this.main.pushLinkPatch(href, targetEl, (linkRef) => {
           this.historyPatch(href, linkState, linkRef);
